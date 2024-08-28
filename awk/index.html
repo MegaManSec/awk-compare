@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<body>
+<script>
+window.addEventListener('message', async (event) => {
+  if (event.origin !== window.location.origin) return;
+  const { variant, script, data } = event.data;
+  runAWKVersion(variant, script, data, event);
+});
+
+var Module;
+var args = ['-f', '/script.awk', '/input.txt'];
+
+function runAWKVersion(variant, script, data, event) {
+  Module = {
+    onRuntimeInitialized: function() {
+      FS.writeFile('/input.txt', data);
+      FS.writeFile('/script.awk', script);
+    },
+    'noInitialRun': true,
+    'print':  function(text) { window.parent.postMessage({ outputId: `${variant}Output`, output: text }, event.origin); }, 
+    'printErr':  function(text) { window.parent.postMessage({ outputId: `${variant}Output`, output: text }, event.origin); }, 
+  };
+
+  var s = document.createElement('script');
+  s.setAttribute('src', `${variant}.js`);
+  s.onload = function() {
+    setTimeout(callMain, 500, args);
+  };
+  document.body.appendChild(s);
+}
+
+</script>
+</body>
