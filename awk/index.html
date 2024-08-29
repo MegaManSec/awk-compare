@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <body>
 <script>
+window.prompt = () => { return null; };
+
 var Variant;
 var Origin;
 
@@ -26,9 +28,9 @@ function callmain(args) {
 function runAWKVersion(args, script, data) {
   Module = {
     onRuntimeInitialized: function() {
-      if (data !== undefined && data !== null && data.length > 0)
+      if (data)
         FS.writeFile('/data.txt', data);
-      if (script !== undefined && script !== null && script.length > 0)
+      if (script)
         FS.writeFile('/script.awk', script);
     },
     'print':  function(text) { window.parent.postMessage({ outputId: `${Variant}Output`, output: text }, Origin); }, 

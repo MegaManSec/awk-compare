@@ -42,7 +42,7 @@
         <div class="container">
           <div class="dropdown">
           <button class="dropbtn">Examples</button>
-          <div class="dropdown-content">
+          <div class="dropdown-content" id="dropdown-content">
             <button onclick="updateExample(1)">Example 1</button>
             <button onclick="updateExample(2)">Example 2</button>
             <button onclick="updateExample(3)">Example 3</button>
@@ -72,7 +72,10 @@
   <div id="iframeContainer"></div>
 
   <script>
+    window.prompt = () => { return null };
     function updateExample(number) {
+      document.getElementById('dropdown-content').style.display = 'none';
+
       const argsElement = document.getElementById('awkArgs');
       const scriptElement = document.getElementById('awkScript');
       const dataElement = document.getElementById('awkData');
