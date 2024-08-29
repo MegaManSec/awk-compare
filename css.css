@@ -40,41 +40,6 @@ header {
   flex-direction: row;
 }
 
-.options-container {
-  background-color: #2D2D2D;
-  width: 60px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex-direction: column;
-  border-right: 1px solid #444;
-}
-
-.options-container label {
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.options-container input[type="checkbox"] {
-  margin-right: 10px;
-}
-
-.options-container button {
-  background-color: #444;
-  color: #FFF;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
-  text-align: center;
-}
-
-.options-container button:hover {
-  background-color: #555;
-}
-
 .output-container {
   display: flex;
   flex-direction: column;
@@ -238,8 +203,12 @@ textarea.pre {
   display: block;
 }
 
-.dropdown:hover .dropbtn {
-  background-color: #3e8e41;
+.dropdown.disable-hover:hover .dropdown-content {
+  display: none;
+}
+
+.dropdown-content.show {
+  display: block;
 }
 
 .container {

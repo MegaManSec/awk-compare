@@ -41,13 +41,13 @@
         <textarea id="awkScript" rows="10" placeholder="Enter your AWK script..."></textarea>
         <div class="container">
           <div class="dropdown">
-          <button class="dropbtn">Examples</button>
-          <div class="dropdown-content" id="dropdown-content">
-            <button onclick="updateExample(1)">Example 1</button>
-            <button onclick="updateExample(2)">Example 2</button>
-            <button onclick="updateExample(3)">Example 3</button>
-            <button onclick="updateExample(4)">Example 4</button>
-          </div>
+            <button class="dropbtn">Examples</button>
+            <div class="dropdown-content">
+              <button onclick="updateExample(1); closeDropdown();">Example 1</button>
+              <button onclick="updateExample(2); closeDropdown();">Example 2</button>
+              <button onclick="updateExample(3); closeDropdown();">Example 3</button>
+              <button onclick="updateExample(4); closeDropdown();">Example 4</button>
+            </div>
           </div>
 
           <div class="textarea-wrapper">
@@ -73,9 +73,32 @@
 
   <script>
     window.prompt = () => { return null };
-    function updateExample(number) {
-      document.getElementById('dropdown-content').style.display = 'none';
 
+    function closeDropdown() {
+      const dropdownContent = document.querySelector('.dropdown-content');
+      const dropdown = document.querySelector('.dropdown');
+    
+      dropdownContent.classList.remove('show');
+      dropdown.classList.add('disable-hover');
+
+      // Re-enable hover after a short delay
+      setTimeout(() => {
+        dropdown.classList.remove('disable-hover');
+      }, 200);
+    }
+
+    // Event listeners to show the dropdown when hovering over it
+    const dropdown = document.querySelector('.dropdown');
+    dropdown.addEventListener('mouseover', () => {
+      const dropdownContent = document.querySelector('.dropdown-content');
+      dropdownContent.classList.add('show');
+    });
+
+    dropdown.addEventListener('mouseleave', () => {
+      const dropdownContent = document.querySelector('.dropdown-content');
+      dropdownContent.classList.remove('show');
+    });
+    function updateExample(number) {
       const argsElement = document.getElementById('awkArgs');
       const scriptElement = document.getElementById('awkScript');
       const dataElement = document.getElementById('awkData');
