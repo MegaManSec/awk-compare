@@ -1,31 +1,43 @@
 <!DOCTYPE html>
 <body>
 <script>
+var Variant;
+var Origin;
+
 window.addEventListener('message', async (event) => {
-  if (event.origin !== window.location.origin) return;
-  const { variant, script, data } = event.data;
-  runAWKVersion(variant, script, data, event);
+  Origin = event.origin;
+
+  if (Origin !== window.location.origin) return;
+  const { variant, args, script, data } = event.data;
+  Variant = variant;
+  runAWKVersion(args, script, data);
 });
 
 var Module;
-var args = ['-f', '/script.awk', '/input.txt'];
 
-function runAWKVersion(variant, script, data, event) {
+function callmain(args) {
+  try {
+    callMain(args);
+  } catch (error) {
+    window.parent.postMessage({ outputId: `${Variant}Output`, output: "AWK_COMPARE_INTERNAL_ERROR" }, Origin);
+  }
+}
+
+function runAWKVersion(args, script, data) {
   Module = {
     onRuntimeInitialized: function() {
-      FS.writeFile('/input.txt', data);
-      FS.writeFile('/script.awk', script);
+      if (data !== undefined && data !== null && data.length > 0)
+        FS.writeFile('/data.txt', data);
+      if (script !== undefined && script !== null && script.length > 0)
+        FS.writeFile('/script.awk', script);
     },
-    'noInitialRun': true,
-    'print':  function(text) { window.parent.postMessage({ outputId: `${variant}Output`, output: text }, event.origin); }, 
-    'printErr':  function(text) { window.parent.postMessage({ outputId: `${variant}Output`, output: text }, event.origin); }, 
+    'print':  function(text) { window.parent.postMessage({ outputId: `${Variant}Output`, output: text }, Origin); }, 
+    'printErr':  function(text) { window.parent.postMessage({ outputId: `${Variant}Output`, output: text }, Origin); },
+    'arguments': args,
   };
 
   var s = document.createElement('script');
-  s.setAttribute('src', `${variant}.js`);
-  s.onload = function() {
-    setTimeout(callMain, 500, args);
-  };
+  s.setAttribute('src', `${Variant}.js`);
   document.body.appendChild(s);
 }
 

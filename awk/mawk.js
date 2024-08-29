@@ -450,7 +450,7 @@ var isFileURI = (filename) => filename.startsWith('file://');
 // include: runtime_exceptions.js
 // end include: runtime_exceptions.js
 function findWasmBinary() {
-    var f = 'https://megamansec.github.io/awk-compare/awk/together/mawk.wasm';
+    var f = 'mawk.wasm';
     if (!isDataURI(f)) {
       return locateFile(f);
     }
