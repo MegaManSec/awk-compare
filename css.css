@@ -267,14 +267,12 @@ textarea.pre {
   color: grey;
   opacity: 0.7;
   padding: 0 !important;
-/*  padding-left: 10px !important;*/
   padding-left: 7px !important;
   padding-right: 7px !important;
   margin: 0 !important;
   width: 154px;
   border-style: none;
   border-color: transparent;
-  overflow: no;
   max-width: 100%;
   resize: none;
 }
